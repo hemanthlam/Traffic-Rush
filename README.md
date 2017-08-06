@@ -16,3 +16,4 @@ This is a work in progress and the current functionality is being implemented.
 - Right now the API's are being embedded to the application so that the current Traffic, Weather Alerts and Road Hazard Constructions can be displayed.
 
 #License
+This work is made available under the MIT license.
