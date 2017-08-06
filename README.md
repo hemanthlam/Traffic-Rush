@@ -15,5 +15,5 @@ This is a work in progress and the current functionality is being implemented.
 - A Source and Destination can be entered in the Android App.
 - Right now the API's are being embedded to the application so that the current Traffic, Weather Alerts and Road Hazard Constructions can be displayed.
 
-#License
+#License:
 This work is made available under the MIT license.
