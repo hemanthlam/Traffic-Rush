@@ -165,7 +165,6 @@ public class MainActivity extends Activity {
         if (sourceAddress != null && destinationAddress != null) {
             new PlaceAMarker().execute(sourceAddress);
             new PlaceAMarker().execute(destinationAddress);
-
         }
     }
 
