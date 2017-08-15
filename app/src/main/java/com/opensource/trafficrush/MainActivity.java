@@ -12,9 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -45,9 +48,11 @@ public class MainActivity extends Activity {
 
     private static LatLng goodLatLng = new LatLng(37, -120);
     private GoogleMap googleMap;
-    private EditText source, destination;
+    private TextView source;
+    private AutoCompleteTextView destination;
     LatLng addressPos, finalAddressPos;
     Marker addressMarker;
+    public Button trafficData;
 
     private ArrayList<AutoCompleteBean> resultList;
     private ArrayList<Double> locationResult;
@@ -65,14 +70,30 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        source = (EditText) findViewById(R.id.addressEditText);
-        destination = (EditText) findViewById(R.id.finalAddressEditText);
+        trafficData = (Button) findViewById(R.id.trafficData);
 
-//        AutoCompleteTextView source = (AutoCompleteTextView) findViewById(R.id.addressEditText);
-//        AutoCompleteTextView destination = (AutoCompleteTextView) findViewById(R.id.finalAddressEditText);
-//
-//        source.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_dropdown_item));
-//        destination.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_dropdown_item));
+        trafficData.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                //String geoUriString = "https://waze.com/ul?ll=45.6906304&-120.810983";
+
+                String geoUriString = "https://waze.com/ul?addr=" +
+                    addressPos.latitude + "," +
+                    addressPos.longitude + "&daddr=" +
+                    finalAddressPos.latitude + "," +
+                    finalAddressPos.longitude;
+                
+                Intent wazeMapCall = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUriString));
+                startActivity(wazeMapCall);
+            }
+
+        });
+
+        source = (TextView) findViewById(R.id.Source);
+        destination = (AutoCompleteTextView) findViewById(R.id.finalAddressEditText);
+
+        destination.setAdapter(new PlacesAutoCompleteAdapter(this, android.R.layout.simple_spinner_dropdown_item));
 
         // Initial Map
         try {
@@ -93,46 +114,6 @@ public class MainActivity extends Activity {
         googleMap.setBuildingsEnabled(true);
         // Get zoom button
         googleMap.getUiSettings().setZoomControlsEnabled(true);
-
-//        source.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//                System.out.println("click");
-//                System.out.println(resultList.get(position).getDescription());
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        locationResult = Details(resultList.get(position).getDescription(), resultList.get(position).getReference());
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                //setLocation(locationResult.get(0), locationResult.get(1));
-//                            }
-//                        });
-//                    }
-//                }).start();
-//            }
-//        });
-//
-//        destination.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-//                System.out.println("click");
-//                System.out.println(resultList.get(position).getDescription());
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        locationResult = Details(resultList.get(position).getDescription(), resultList.get(position).getReference());
-//                        runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                //setLocation(locationResult.get(0), locationResult.get(1));
-//                            }
-//                        });
-//                    }
-//                }).start();
-//            }
-//        });
 
     }
 
@@ -162,9 +143,20 @@ public class MainActivity extends Activity {
 
         String sourceAddress = source.getText().toString();
         String destinationAddress = destination.getText().toString();
-        if (sourceAddress != null && destinationAddress != null) {
-            new PlaceAMarker().execute(sourceAddress);
+        if (destinationAddress != null) {
             new PlaceAMarker().execute(destinationAddress);
+        }
+    }
+
+    public void getDirections(View view) {
+
+        String startingAddress = source.getText().toString();
+        String finalAddress = destination.getText().toString();
+
+        if (finalAddress.equals("")) {
+            Toast.makeText(this, "Enter a starting and Ending address", Toast.LENGTH_SHORT).show();
+        } else {
+            new GetDirections().execute(startingAddress, finalAddress);
         }
     }
 
@@ -177,7 +169,8 @@ public class MainActivity extends Activity {
 
             startAddress = startAddress.replaceAll(" ", "%20");
             endAddress = endAddress.replaceAll(" ", "%20");
-
+            Log.d("findMe", "startAddress in placeMarker: " + startAddress);
+            Log.d("findMe", "endAddress in placeMarker: " + endAddress);
             getLatLng(startAddress, false);
             getLatLng(endAddress, false);
 
@@ -187,9 +180,8 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-
             addressMarker = googleMap.addMarker(new MarkerOptions()
-            .position(addressPos).title("Address"));
+                    .position(addressPos).title("Address"));
         }
     }
 
@@ -220,10 +212,10 @@ public class MainActivity extends Activity {
         }
     }
 
-    protected void getLatLng(String address, boolean setDestination) {
+    public void getLatLng(String address, boolean setDestination) {
         String uri = "http://maps.google.com/maps/api/geocode/json?address="
                 + address + "&sensor=false";
-
+        Log.d("findME", "uri = " + uri);
         HttpGet httpGet = new HttpGet(uri);
 
         HttpClient client = new DefaultHttpClient();
@@ -258,9 +250,11 @@ public class MainActivity extends Activity {
                     .getDouble("lat");
 
         } catch (JSONException e) {
+            Log.d("findMe", "exception: " + e.getMessage());
             e.printStackTrace();
         }
 
+        Log.d("findMe:",  "lat: " + lat + "long: " + lng);
         if (setDestination) {
             finalAddressPos = new LatLng(lat, lng);
         } else {
@@ -339,10 +333,10 @@ public class MainActivity extends Activity {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Log.d(LOG_TAG, "Error processing Places API URL", e);
             return null;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Log.d(LOG_TAG, "Error connecting to Places API", e);
             return null;
         } finally {
             if (conn != null) {
@@ -361,7 +355,7 @@ public class MainActivity extends Activity {
                 resultList.add(new AutoCompleteBean(predsJsonArray.getJSONObject(i).getString("description"), predsJsonArray.getJSONObject(i).getString("reference")));
             }
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Log.d(LOG_TAG, "Cannot process JSON results", e);
         }
 
         return resultList;
@@ -388,10 +382,10 @@ public class MainActivity extends Activity {
                 jsonResults.append(buff, 0, read);
             }
         } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Error processing Places API URL", e);
+            Log.d(LOG_TAG, "Error processing Places API URL", e);
             return null;
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Error connecting to Places API", e);
+            Log.d(LOG_TAG, "Error connecting to Places API", e);
             return null;
         } finally {
             if (conn != null) {
@@ -412,10 +406,8 @@ public class MainActivity extends Activity {
             resultList.add(jsonObjLocation.getDouble("lat"));
             resultList.add(jsonObjLocation.getDouble("lng"));
         } catch (JSONException e) {
-            Log.e(LOG_TAG, "Cannot process JSON results", e);
+            Log.d(LOG_TAG, "Cannot process JSON results", e);
         }
-
         return resultList;
     }
-
 }
