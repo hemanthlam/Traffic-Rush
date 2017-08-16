@@ -78,12 +78,8 @@ public class MainActivity extends Activity {
             {
                 //String geoUriString = "https://waze.com/ul?ll=45.6906304&-120.810983";
 
-                String geoUriString = "https://waze.com/ul?addr=" +
-                    addressPos.latitude + "," +
-                    addressPos.longitude + "&daddr=" +
-                    finalAddressPos.latitude + "," +
-                    finalAddressPos.longitude;
-                
+                String geoUriString = "https://waze.com/ul?ll=" + finalAddressPos.latitude + "&-" + finalAddressPos.longitude;
+
                 Intent wazeMapCall = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUriString));
                 startActivity(wazeMapCall);
             }
