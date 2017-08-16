@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 
+
 public class SplashScreen extends Activity {
 
     @Override
@@ -16,6 +17,7 @@ public class SplashScreen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
         Button login = (Button) findViewById(R.id.Login);
+        Button register = (Button) findViewById(R.id.Register);
 
         login.setOnClickListener(new View.OnClickListener()
         {
@@ -25,6 +27,19 @@ public class SplashScreen extends Activity {
                 startActivity(intent);
                 finish();
             }
+
+        });
+
+        register.setOnClickListener(new View.OnClickListener()
+        {
+            public void onClick(View v)
+            {
+                Uri uri = Uri.parse("https://accounts.google.com/SignUp");
+                Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                startActivity(intent);
+                finish();
+            }
+
         });
     }
 }
