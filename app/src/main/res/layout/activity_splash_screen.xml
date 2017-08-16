@@ -10,7 +10,26 @@
         android:id="@+id/Login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
-        android:layout_centerVertical="true"
+        android:text="Login with Google"
+        android:layout_marginBottom="45dp"
+        android:layout_above="@+id/Register"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:id="@+id/Register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Register with Google" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Register"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="76dp"
+        android:text="If you don't have a Google account, you have to first register and then come back to the Traffic Rush app and then login using your Google account details."
+        android:textAppearance="@style/TextAppearance.AppCompat" />
 </RelativeLayout>
