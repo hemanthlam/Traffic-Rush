@@ -1,4 +1,4 @@
-Traffic-Rush
+#Traffic-Rush
 
 An Android app which gives us information about traffic details
 
