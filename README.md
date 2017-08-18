@@ -38,8 +38,11 @@ Then other details like traffic, presence of a police etc are known by connectin
 
 # TECHNICAL DETAILS:
 Android Studio 2.3.3
+
 JRE 1.8.0_112-release-b06 x86_64
+
 JVM: OpenJDK 64-Bt Server VM by JetBrains s.r.o
+
 compile sdk version 21
 
 # SOURCE CODE: 
@@ -73,7 +76,8 @@ Can be found at https://github.com/lamhemanth/Traffic-Rush/blob/master/quick-tal
 # Demo Video:
 https://drive.google.com/drive/folders/0ByTz45D8AFAua016N3FIU3FMYlE?usp=sharing
 
-# Author Hemanth Lam & Nikhitha Durvasula
+# Authors:
+Hemanth Lam & Nikhitha Durvasula
 
 # Contact Information: 
 You can email to lamhem@pdx.edu / nd6@pdx.edu if you have any queries on this project.
