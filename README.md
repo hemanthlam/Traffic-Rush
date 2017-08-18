@@ -46,7 +46,7 @@ compile sdk version 21
 https://github.com/lamhemanth/Traffic-Rush
 
 # APK File:
-You can get the apk file from:
+You can get the apk file from: https://github.com/lamhemanth/Traffic-Rush/blob/master/app-debug.apk
 
 
 # Bug or Issue Tracker:
