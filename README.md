@@ -17,7 +17,7 @@ This app allows users to register using email id and login. It provides users wi
 
 You can find the source code at https://github.com/lamhemanth/Traffic-Rush
 
-#INSTALLATION:
+# INSTALLATION:
 Firstly, clone the git repository.
 git clone https://github.com/lamhemanth/Traffic-Rush.git
 
