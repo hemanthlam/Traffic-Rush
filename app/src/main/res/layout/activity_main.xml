@@ -1,1 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/getAddressButton"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/Source"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/finalAddressEditText"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="   Current location is detected as Source Address"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        tools:ignore="HardcodedText" />
+
+    <!--<AutoCompleteTextView-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:inputType="textPostalAddress"-->
+        <!--android:ems="10"-->
+        <!--android:id="@+id/Source"-->
+        <!--android:hint="Source Address"-->
+        <!--tools:ignore="HardcodedText"-->
+        <!--android:layout_marginBottom="29dp"-->
+        <!--android:layout_alignParentBottom="true"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:layout_alignParentStart="true" />-->
+
+    <Button
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Marker"
+        android:id="@+id/getAddressButton"
+        android:onClick="showAddressMarker"
+        tools:ignore="HardcodedText,RtlHardcoded"
+        android:layout_above="@+id/Source"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <AutoCompleteTextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPostalAddress"
+        android:ems="10"
+        android:id="@+id/finalAddressEditText"
+        android:hint="Destination Address"
+        tools:ignore="HardcodedText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="6dp"
+        android:layout_marginEnd="6dp" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Directions"
+        android:id="@+id/getDirectionsButton"
+        android:onClick="getDirections"
+        tools:ignore="HardcodedText,RtlHardcoded"
+        android:layout_below="@+id/map"
+        android:layout_toRightOf="@+id/getAddressButton"
+        android:layout_toEndOf="@+id/getAddressButton"
+        android:layout_marginLeft="6dp"
+        android:layout_marginStart="6dp" />
+
+    <Button
+        android:id="@+id/trafficData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Traffic Details"
+        android:layout_below="@+id/map"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
